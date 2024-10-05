@@ -13,9 +13,12 @@ public class tw2b {
 
     void checkTriangle() {
         if ((a + b) > c && (b + c) > a && (a + c) > b) {
-            if (a == b && b == c) System.out.println("Triangle is equilateral");
-            else if (a == b || b == c || c == a) System.out.println("Triangle is isosceles");
-            else System.out.println("Triangle is scalene");
+            if (a == b && b == c)
+                System.out.println("Triangle is equilateral");
+            else if (a == b || b == c || c == a)
+                System.out.println("Triangle is isosceles");
+            else
+                System.out.println("Triangle is scalene");
 
         } else {
             System.out.println("The triangle sides are invalid. ");
