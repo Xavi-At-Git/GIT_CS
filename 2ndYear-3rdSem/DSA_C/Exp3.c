@@ -1,84 +1,85 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
-#define max 100
+#define MAX 100
 
-char stack[max];
+char stack[MAX];
 int top = -1;
 
-void push(char c){
-    if (top == max - 1){
+void push(char c) {
+    if (top == MAX - 1) {
         printf("Stack is full / overflow\n");
         exit(1);
-    }else{
-        stack[++top] = c; // Increment top before assignment
     }
+    stack[++top] = c;
 }
 
-char pop(){
-    if (top == -1){
+char pop() {
+    if (top == -1) {
         printf("Stack is empty / underflow\n");
         exit(1);
-    }else{
-        return stack[top--]; // Return and decrement top
     }
+    return stack[top--];
 }
 
-int isOperator(char c){
+char stackTop() {
+    if (top == -1) {
+        printf("Stack is empty\n");
+        exit(1);
+    }
+    return stack[top];
+}
+
+int isOperator(char c) {
     return (c == '+' || c == '-' || c == '*' || c == '/' || c == '^');
 }
 
-int priority(char op){
-    switch (op){
-    case '+':
-    case '-':
+int priority(char op) {
+    if (op == '+' || op == '-') {
         return 1;
-    case '*':
-    case '/':
+    } else if (op == '*' || op == '/') {
         return 2;
-    case '^':
+    } else if (op == '^') {
         return 3;
-    default:
-        return 0; // Non-operators have lowest priority
     }
+    return 0;
 }
 
-void infixToPostfix(char infix[]){
-    char postfix[max];
+void infixToPostfix(char infix[]) {
+    char postfix[MAX];
     int i, j = 0;
 
-    for (i = 0; infix[i] != '\0'; i++){
+    for (i = 0; infix[i] != '\0'; i++) {
         char ch = infix[i];
 
-        if (isalnum(ch))
-        { // Operand: copy to postfix expression
+        if (isalnum(ch)) {
             postfix[j++] = ch;
-        }else if (ch == '('){
-            push(ch); // Opening parenthesis: push onto stack
-        }else if (ch == ')'){
-            while (top != -1 && stack[top] != '('){
+        } else if (ch == '(') {
+            push(ch);
+        } else if (ch == ')') {
+            while (top != -1 && stackTop() != '(') {
                 postfix[j++] = pop();
             }
             pop(); // Remove '(' from the stack
-        }else if (isOperator(ch)){
-            while (top != -1 && priority(stack[top]) >= priority(ch)){
+        } else if (isOperator(ch)) {
+            while (top != -1 && priority(stackTop()) >= priority(ch)) {
                 postfix[j++] = pop();
             }
             push(ch);
         }
     }
 
-    while (top != -1){
+    while (top != -1) {
         postfix[j++] = pop();
     }
 
-    postfix[j] = '\0'; // Null-terminate the postfix expression
+    postfix[j] = '\0';
 
     printf("Postfix expression: %s\n", postfix);
 }
 
-int main(){
-    char infix[max];
+int main() {
+    char infix[MAX];
 
     printf("Enter the infix expression: ");
     scanf("%s", infix);
