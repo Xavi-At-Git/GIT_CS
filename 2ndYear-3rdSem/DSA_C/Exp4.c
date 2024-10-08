@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAX 100
+#define size 100
 
-int queue[MAX];
+int queue[size];
 int front = -1;
 int rear = -1;
 void enqueue(int);
@@ -42,7 +42,7 @@ int main() {
 
 void enqueue(int ele)
 {
-	if(rear==MAX-1)
+	if(rear==size-1)
 	{
 		printf("\tQueue overflow\n");
 	}
